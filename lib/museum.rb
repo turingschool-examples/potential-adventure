@@ -16,4 +16,8 @@ class Museum
       patron.interests.include?(exhibit.name)
     end
   end
+
+  def admit(patron)
+    @patrons << patron
+  end
 end
