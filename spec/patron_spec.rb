@@ -19,5 +19,9 @@ RSpec.describe Patron do
     it 'has money' do
       expect(@patron.spending_money).to eq(20)
     end
+
+    it 'has an empty interest array' do
+      expect(@patron.interests).to eq([])
+    end
   end
 end
