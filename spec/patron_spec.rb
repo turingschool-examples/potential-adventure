@@ -17,7 +17,7 @@ RSpec.describe Patron do
     end
 
     it 'has money' do
-      expect(@patron.money).to eq(20)
+      expect(@patron.spending_money).to eq(20)
     end
   end
 end
