@@ -6,14 +6,14 @@ end
 
 RSpec.describe Patron do
   before(:each) do
-    @patron = @patron.new("Bob", 20)
+    @patron = Patron.new("Bob", 20)
   end
 
   # using name scheme has = initialized methods while can = methods
 
   describe "#initialization" do
     it 'initialize' do
-      expect(@patron).to be_an_instance_of(@patron)
+      expect(@patron).to be_an_instance_of(Patron)
     end
 
     it 'has a name' do
