@@ -34,7 +34,7 @@ RSpec.describe Museum do
         @dmns.add_exhibit(@dead_sea_scrolls)
         @dmns.add_exhibit(@imax)
 
-        expect(@dmns.interests).to eq([@gems_and_minerals, @dead_sea_scrolls, @imax])
+        expect(@dmns.exhibits).to eq([@gems_and_minerals, @dead_sea_scrolls, @imax])
     end
 
     it 'can recommend exhibits to patrons' do
@@ -56,8 +56,7 @@ RSpec.describe Museum do
         @dmns.recommend_exhibits(@patron_1)
         @dmns.recommend_exhibits(@patron_2)
 
-        expect(@dmns.recommend_exhibits(@patron_1)).to eq([@gems_and_minerals, @dead_sea_scrolls])
+        expect(@dmns.recommend_exhibits(@patron_1)).to eq([@dead_sea_scrolls, @gems_and_minerals])
         expect(@dmns.recommend_exhibits(@patron_2)).to eq([@imax])
     end
-
 end
