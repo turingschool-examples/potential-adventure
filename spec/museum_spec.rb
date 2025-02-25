@@ -51,9 +51,9 @@ RSpec.describe Museum do
     it 'can recommend exhibits per interest of the patron' do
       expect(@dmns.recommend_exhibits(@patron_1)).to eq([])
 
-      patron_1.add_interest("Dead Sea Scrolls")
-      patron_1.add_interest("Gems and Minerals")
-      expect(@dmns.recommend_exhibits(@patron_1)).to eq([@dead_sea_scrolls, @gems_and_minerals])
+      @patron_1.add_interest("Dead Sea Scrolls")
+      @patron_1.add_interest("Gems and Minerals")
+      expect(@dmns.recommend_exhibits(@patron_1)).to eq([@gems_and_minerals, @dead_sea_scrolls])
 
       expect(@dmns.recommend_exhibits(@patron_2)).to eq([])
       @patron_2.add_interest("IMAX")
