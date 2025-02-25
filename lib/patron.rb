@@ -1,5 +1,5 @@
 class Patron
-    def initialize(name,age)
-        
+    def initialize(name,spending_money)
+
     end
 end
