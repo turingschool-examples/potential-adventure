@@ -4,13 +4,15 @@ require './lib/museum'
 
 RSpec.describe Museum do
   before(:each) do
-    @dmns = Museum.new("Denver Museum of Nature and Science")
     @gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     @dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
-    @imax = Exhibit.new({name: "IMAX",cost: 15})
+    @imax = Exhibit.new({name: "IMAX", cost: 15})
+
+    @dmns = Museum.new("Denver Museum of Nature and Science")
+
     @patron_1 = Patron.new("Bob", 20)
-    @patron_1.add_interest("Dead Sea Scrolls")
-    @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest(@gems_and_minerals)
+    @patron_1.add_interest(@imax)
   end
 
   describe "#initialize" do
@@ -37,7 +39,10 @@ RSpec.describe Museum do
       expect(@recommended).to eq([])
     end
 
-    it 'recommends exhibits based on the patrons interests' do
+    it "recommends exhibits based on the patron's interests" do
+      @dmns.add_exhibit(@gems_and_minerals)
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @dmns.add_exhibit(@imax)
       @recommended = @dmns.recommend_exhibits(@patron_1)
 
       expect(@recommended).to include(@gems_and_minerals)
