@@ -104,6 +104,24 @@ RSpec.describe Museum do
       expect(@dmns.patrons_by_exhibit_interest).to eq(expected_output)
     end
   end
+
+  describe '#ticket_lottery_contestants' do
+    it 'returns an array of patrons that do not have enough money to see an exhibi' do
+      @dmns.admit(@patron_1)
+      @dmns.admit(@patron_2)
+      @dmns.admit(@patron_3)
+
+      expected_output = {
+        @gems_and_minerals => [@patron_1], 
+        @dead_sea_scrolls => [@patron_1, @patron_2, @patron_3],
+        @imax => []
+      }
+
+      expect(@dmns.patrons_by_exhibit_interest).to eq(expected_output)
+      expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq(@patron_1, @patron_3)
+      expect(@dmns.ticket_lottery_contestants(@gems_and_minerals)).to eq([])
+    end
+  end
 end
 
 
