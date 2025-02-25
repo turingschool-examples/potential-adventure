@@ -10,6 +10,8 @@ class Museum
   end
 
   def recommend_exhibits(patron)
-    @exhibits.select {|exhibit| patron.interests.include?(exhibit)}
+    @exhibits.select do |exhibit|
+      patron.interests.include?(exhibit.name)
+    end
   end
 end

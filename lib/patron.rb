@@ -5,7 +5,7 @@ class Patron
     @spending_money = spending_money
     @interests = []
   end
-  def add_interest(exhibit)
-    @interests << exhibit
+  def add_interest(exhibit_name)
+    @interests << exhibit_name
   end
 end

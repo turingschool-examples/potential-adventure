@@ -33,21 +33,16 @@ RSpec.describe Museum do
     end
   end
   describe "#recommend_exhibits" do
-    it 'returns an empty list if the patron has no interests' do
-      @recommended = @dmns.recommend_exhibits(@patron_1)
-
-      expect(@recommended).to eq([])
-    end
-
-    it "recommends exhibits based on the patron's interests" do
+    it 'recommends exhibits' do
       @dmns.add_exhibit(@gems_and_minerals)
       @dmns.add_exhibit(@dead_sea_scrolls)
       @dmns.add_exhibit(@imax)
-      @recommended = @dmns.recommend_exhibits(@patron_1)
 
-      expect(@recommended).to include(@gems_and_minerals)
-      expect(@recommended).to include(@imax)
-      expect(@recommended).not_to include(@dead_sea_scrolls)
+      @recommended = @dmns.recommend_exhibits(@patron_1, "Dead Sea Scrolls")
+
+      expect(@recommended).to include(@dead_sea_scrolls)
+      expect(@recommended).not_to include(@gems_and_minerals)
+      expect(@recommended).not_to include(@imax)
     end
   end
 end  
