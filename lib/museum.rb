@@ -3,6 +3,8 @@ class Museum
     @name = name
     @exhibits = []
     @patrons = []
+    @revenue = 0
+    @patrons_of_exhibits = Hash.new { |hash, key| hash[key] = [] }
   end
 
   def name
@@ -17,6 +19,14 @@ class Museum
     @patrons
   end
 
+  def revenue
+    @revenue
+  end
+
+  def patrons_in_exhibits
+    @patrons_of_exhibits
+  end
+
   def add_exhibit(exhibit)
     @exhibits << exhibit
   end
@@ -29,11 +39,24 @@ class Museum
 
   def admit(patron)
     @patrons << patron # shovel the patrons into the array
+    attend_exhibits(patron) # call the method to attend the exhibits
+  end
+
+  def attend_exhibits(patron)
+    recommended_exhibits = recommend_exhibits(patron).sort_by { |exhibit| -exhibit.cost } # sort the exhibits by cost
+    recommended_exhibits.each do |exhibit| # iterate over exhibits
+      if patron.spending_money >= exhibit.cost # if the patron isnt broke
+        patron.spending_money -= exhibit.cost # exhibit cost - patron's money
+        @revenue += exhibit.cost # add the exhibit cost to the revenue
+        @patrons_of_exhibits[exhibit] << patron # shovel the patron into the hash
+      end
+    end
   end
 
   def patrons_by_exhibit_interest
     result = Hash.new { |hash, key| hash[key] = [] } # make a new hash with a default value of an empty array
     @exhibits.each do |exhibit| # iterate over the exhibits
+      result[exhibit] # ensure the exhibit is included in the result (throws errors if not)
       @patrons.each do |patron| # iterate over the iteration of the exhibits lol
         if patron.interests.include?(exhibit.name) # if the patron's interests include the exhibit name
           result[exhibit] << patron # shovel the patron into the hash with the exhibit as the key

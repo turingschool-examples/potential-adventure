@@ -27,6 +27,18 @@ RSpec.describe Museum do
     it 'has no exhibits' do
       expect(@dmns.exhibits).to eq([])
     end
+
+    it 'has no patrons' do
+      expect(@dmns.patrons).to eq([])
+    end
+
+    it 'has no revenue' do
+      expect(@dmns.revenue).to eq(0)
+    end
+
+    it 'has patrons in exhibits' do
+      expect(@dmns.patrons_in_exhibits).to eq(Hash.new { |hash, key| hash[key] = [] })
+    end
   end
 
   describe "#exhibit" do

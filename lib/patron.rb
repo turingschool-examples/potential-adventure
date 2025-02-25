@@ -13,6 +13,10 @@ class Patron
     @spending_money
   end
 
+  def spending_money=(amount)
+    @spending_money = amount
+  end
+
   def interests
     @interests
   end
