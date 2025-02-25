@@ -36,6 +36,32 @@ RSpec.describe Museum do
       @dmns.add_exhibit(@imax)
       expect(@dmns.exhibits).to eq([])
     end
+  end
+
+  describe '#recommend_exhibits' do
+    before(:each) do
+      @patron_1 = Patron.new("Bob", 20)
+      @patron_2 = Patron.new("Sally", 20)
+
+      @dmns.add_exhibit(@gems_and_minerals)
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @dmns.add_exhibit(@imax)
+    end
+
+    it 'can recommend exhibits per interest of the patron' do
+      expect(@dmns.recommend_exhibits(patron_1)).to eq([])
+
+      patron_1.add_interest("Dead Sea Scrolls")
+      patron_1.add_interest("Gems and Minerals")
+      expect(@dmns.recommend_exhibits(patron_1)).to eq([@dead_sea_scrolls, @gems_and_minerals])
+
+      expect(@dmns.recommend_exhibits(patron_2)).to eq([])
+      @patron_2.add_interest("IMAX")
+      expect(@dmns.recommend_exhibits(patron_2)).to eq([@imax])
+    end
+  end
+
 end
+
 
 
