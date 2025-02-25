@@ -21,7 +21,7 @@ class Museum
         end
     end
 
-    def patrons_by_exhibit_interest
+    def patrons_by_exhibit_interest #Creates hash by taking each exhibit, and checking which patrons have interest. Interested patrons hash will have exhibits as keys and patrons as values
         interested_patrons = {}
         @exhibits.each do |exhibit|
             interested_patrons[exhibit] = @patrons.select do |patron|
@@ -43,15 +43,15 @@ class Museum
             return
             nil
         end
-        contestants.sample.name
+        contestants.sample.name #Using .sample on the contestants declared above, calls name as well to get their name only
     end
 
     def announce_lottery_winner(exhibit)
         winner = draw_lottery_winner(exhibit)
         if winner
-            "#{winner} has won the #{exhibit.name} exhibit lottery"
+            "#{winner} has won the #{exhibit.name} exhibit lottery" #Inserts the winner of the lotto and the exhibit name
         else
-            "No winners for this lottery"
+            "No winners for this lottery" #If there are no winners, this will show.
         end
     end
 end
