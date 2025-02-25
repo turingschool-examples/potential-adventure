@@ -1,5 +1,9 @@
 require './lib/exhibit'
 
+Rspec.configure do |config|
+  config.formatter = :documentation
+end
+
 RSpec.describe Exhibit do
   before(:each) do
     @exhibit = Exhibit.new({name: "Gems and Minerals", cost: 0})
