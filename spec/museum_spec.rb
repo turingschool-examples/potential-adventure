@@ -1,6 +1,7 @@
 require './lib/museum'
 require './lib/patron'
 require './lib/exhibit'
+require 'pry'
 
 RSpec.describe Museum do
     before(:each) do
@@ -59,7 +60,7 @@ RSpec.describe Museum do
             #recommend exhibits to patron one
 
             @dmns.recommend_exhibits(patron_1)
-            expect(@dmns.recommend_exhibits(patron_1)).to eq([dead_sea_scrolls, gems_and_minerals])
+            expect(@dmns.recommend_exhibits(patron_1)).to eq([gems_and_minerals, dead_sea_scrolls])
 
             #recommend exhibits to patron two
 
