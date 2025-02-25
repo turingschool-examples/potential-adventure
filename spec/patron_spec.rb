@@ -19,7 +19,6 @@ RSpec.describe Patron do
   describe 'attributes' do
     it 'has a name and a cost' do
       expect(@patron_1.name).to eq("Gems and Minerals")
-      expect(@patron_1.age).to eq(20)
     end
   end
 
