@@ -10,16 +10,21 @@ RSpec.describe Patron do
     @patron_1 = Patron.new("Bob", 20)
   end
 
-  describe 'intialize' do
+  describe '#intialize' do
    it 'exsists' do
       expect(@patron_1).to be_a(Patron)
     end
   end
 
-  describe 'attributes' do
+  describe '#attributes' do
     it 'has a name and a cost' do
       expect(@patron_1.name).to eq("Gems and Minerals")
+      expect(@patron_1.spending_money).to eq(20)
     end
+  end
+
+  describe '#spending_money' do
+    it ''
   end
 
 end
