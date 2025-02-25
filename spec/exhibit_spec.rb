@@ -15,4 +15,11 @@ RSpec.describe do
     end
   end
 
+  describe 'attributes' do
+    it 'has a name and a cost' do
+      expect(@exhibit.name).to eq("Gems and Minerals")
+      expect(@exhibit.cost).to eq(0)
+    end
+  end
+
 end 
