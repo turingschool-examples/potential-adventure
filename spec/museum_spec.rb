@@ -10,8 +10,9 @@ RSpec.describe Museum do
     @gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     @dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     @imax = Exhibit.new({name: "IMAX", cost: 15})
-    @patron_1 = Patron.new("Bob", 20)
+    @patron_1 = Patron.new("Bob", 0)
     @patron_2 = Patron.new("Sally", 20)
+    @patron_3 = Patron.new("Johnny", 5)
   end
 
   describe "#initialization" do
@@ -28,21 +29,93 @@ RSpec.describe Museum do
     end
   end
 
-  it 'can add exhibits' do
-    @dmns.add_exhibit(@gems_and_minerals)
-    @dmns.add_exhibit(@dead_sea_scrolls)
-    @dmns.add_exhibit(@imax)
-    expect(@dmns.exhibits).to eq([@gems_and_minerals, @dead_sea_scrolls, @imax])
+  describe "#exhibit" do
+    it 'can add exhibits' do
+      @dmns.add_exhibit(@gems_and_minerals)
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @dmns.add_exhibit(@imax)
+      expect(@dmns.exhibits).to eq([@gems_and_minerals, @dead_sea_scrolls, @imax])
+    end
+
+    it 'can recommend exhibits' do
+      @dmns.add_exhibit(@gems_and_minerals)
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @dmns.add_exhibit(@imax)
+      @patron_1.add_interest("Dead Sea Scrolls")
+      @patron_1.add_interest("Gems and Minerals")
+      @patron_2.add_interest("IMAX")
+      expect(@dmns.recommend_exhibits(@patron_1)).to eq([@gems_and_minerals, @dead_sea_scrolls])
+      expect(@dmns.recommend_exhibits(@patron_2)).to eq([@imax])
+    end
   end
 
-  it 'can recommend exhibits' do
-    @dmns.add_exhibit(@gems_and_minerals)
-    @dmns.add_exhibit(@dead_sea_scrolls)
-    @dmns.add_exhibit(@imax)
-    @patron_1.add_interest("Dead Sea Scrolls")
-    @patron_1.add_interest("Gems and Minerals")
-    @patron_2.add_interest("IMAX")
-    expect(@dmns.recommend_exhibits(@patron_1)).to eq([@gems_and_minerals, @dead_sea_scrolls])
-    expect(@dmns.recommend_exhibits(@patron_2)).to eq([@imax])
+  describe "#patron" do
+    it 'can admit patrons' do
+      @dmns.admit(@patron_1)
+      @dmns.admit(@patron_2)
+      @dmns.admit(@patron_3)
+      expect(@dmns.patrons).to eq([@patron_1, @patron_2, @patron_3])
+    end
+
+    it 'can list patrons' do
+      @dmns.add_exhibit(@gems_and_minerals)
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @dmns.add_exhibit(@imax)
+      @patron_1.add_interest("Gems and Minerals")
+      @patron_1.add_interest("Dead Sea Scrolls")
+      @patron_2.add_interest("Dead Sea Scrolls")
+      @patron_3.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_1)
+      @dmns.admit(@patron_2)
+      @dmns.admit(@patron_3)
+
+      result = { # easier than having all this on one line. Learned to use this method from yesterday when working on project.
+        @gems_and_minerals => [@patron_1],
+        @dead_sea_scrolls => [@patron_1, @patron_2, @patron_3],
+        @imax => []
+      }
+      expect(@dmns.patrons_by_exhibit_interest).to eq(result)
+    end
+  end
+
+  describe "#lottery" do
+    it 'can list lottery contestants' do
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @patron_1.add_interest("Dead Sea Scrolls")
+      @patron_3.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_1)
+      @dmns.admit(@patron_3)
+      expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq([@patron_1, @patron_3])
+    end
+
+    it 'can draw a lottery' do
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @patron_1.add_interest("Dead Sea Scrolls")
+      @patron_3.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_1)
+      @dmns.admit(@patron_3)
+
+      # had to use satisfy because the winner could be either patron_1 or patron_3, so I had to check if the winner was either of them.
+      # i could have used mock/stubs instead like this
+      # allow(museum).to receive(:draw_lottery_winner).with(exhibit).and_return(patron_1)
+      # allow(museum).to receive(:draw_lottery_winner).with(exhibit).and_return(patron_3)
+      # but I wanted to use satisfy instead.
+      
+      expect(@dmns.draw_lottery_winner(@dead_sea_scrolls)).to satisfy { |winner| [@patron_1.name, @patron_3.name].include?(winner) }
+    end
+
+    it 'can announce a lottery' do
+      @dmns.add_exhibit(@imax)
+      @patron_1.add_interest("IMAX")
+      @dmns.admit(@patron_1)
+      # this time we will use mock/stubs
+      allow(@dmns).to receive(:draw_lottery_winner).with(@imax).and_return("Bob")
+      expect(@dmns.announce_lottery_winner(@imax)).to eq("Bob has won the IMAX exhibit lottery")
+    end
+
+    it 'can announce no winner' do
+      @dmns.add_exhibit(@gems_and_minerals)
+      expect(@dmns.announce_lottery_winner(@gems_and_minerals)).to eq("No winners for this lottery")
+    end
   end
 end

@@ -14,7 +14,7 @@ RSpec.describe Exhibit do
       expect(@exhibit).to be_a(Exhibit)
     end
 
-    it 'has a name' do
+    it 'has a name' do # i like to add these things one at a time for testing but i guess i could do it all at once
       expect(@exhibit.name).to eq("Gems and Minerals")
     end
 
