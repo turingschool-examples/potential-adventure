@@ -8,6 +8,7 @@ RSpec.describe Museum do
     @gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     @dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     @imax = Exhibit.new({name: "IMAX",cost: 15})
+    @patron_1 = Patron.new("Bob", 20)
   end
 
   describe "#initialize" do
@@ -22,9 +23,16 @@ RSpec.describe Museum do
   end  
   describe "#add_exhibit" do
     it 'adds an exhibit to the museum' do
-      @gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
       @dmns.add_exhibit(@gems_and_minerals)
+
       expect(@dmns.exhibits).to include(@gems_and_minerals)
     end
-  end  
+  end
+  describe "#recommend_exhibits" do
+    it 'returns an empty list if the patron has no interests' do
+      @recommended = @dmns.recommend_exhibits(@patron_1)
+
+      expect(@recommended).to eq([])
+    end
+  end
 end  
