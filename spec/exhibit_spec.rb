@@ -1,5 +1,4 @@
 require './lib/exhibit'
-require './lib/patron'
 
 RSpec.describe Exhibit do
     before (:each) do
