@@ -5,7 +5,7 @@ class Museum
     @exhibits = exhibits
   end
 
-  def add_exhibits(exhibit)
-    @exhbibits << exhibit
+  def add_exhibit(exhibit)
+    @exhibits << exhibit
   end
 end
