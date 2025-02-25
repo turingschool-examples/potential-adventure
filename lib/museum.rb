@@ -4,6 +4,7 @@ class Museum
         @name = name
         @exhibits = []
         @patrons = []
+        
     end
 
     def add_exhibit(exhibit)
@@ -21,9 +22,33 @@ class Museum
                     recommended_exhibits << exhibit
                 end
             end
-        
         end
         return recommended_exhibits
     end
+
+
+    def admit(patron)
+        @patrons << patron
+    end
+
+
+    def patrons_by_exhibit_interest
+        {"Gems and Minerals" => [],
+        "Dead Sea Scrolls" => [],
+        "IMAX" => []
+        }
+    end
+
+    def add_patrons_to_hash(patron)
+        patrons = patrons_by_exhibit_interest
+        if patron.interests.include?("Gems and Minerals")
+            #binding.pry
+            patrons["Gems and Minerals"] << patron
+
+        end
+    end
+
+   
+
 end
 

@@ -89,13 +89,37 @@ RSpec.describe Museum do
 
             patron_3.add_interest("Dead Sea Scrolls")
 
-            dmns.admit(patron_1)
-            dmns.admit(patron_2)
-            dmns.admit(patron_3)
+            @dmns.admit(patron_1)
+            @dmns.admit(patron_2)
+            @dmns.admit(patron_3)
 
             expect(@dmns.patrons).to eq([patron_1,patron_2,patron_3])
 
+        end
+        it 'can sort patrons by exhibit interest' do
+            @dmns.add_exhibit(@gems_and_minerals)
+            @dmns.add_exhibit(@dead_sea_scrolls)
+            @dmns.add_exhibit(@imax)
+
+            patron_1 = Patron.new("Bob", 0)
+
+            patron_1.add_interest("Gems and Minerals")
+            patron_1.add_interest("Dead Sea Scrolls")
+
+            patron_2 = Patron.new("Sally", 20)
+
+            patron_2.add_interest("Dead Sea Scrolls")
+
+            patron_3 = Patron.new("Johnny", 5)
+
+            patron_3.add_interest("Dead Sea Scrolls")
+
+            @dmns.add_patrons_to_hash(patron_1)
+            @dmns.patrons_by_exhibit_interest
+            
+            expect(@dmns.patrons_by_exhibit_interest).to eq({"Gems and Minerals" => [patron_1], "Dead Sea Scrolls" => [patron_1,patron_2,patron_3],"IMAX" => []})
 
         end
+
     end
 end
