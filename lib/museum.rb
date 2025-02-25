@@ -56,7 +56,7 @@ class Museum
   def patrons_by_exhibit_interest
     result = Hash.new { |hash, key| hash[key] = [] } # make a new hash with a default value of an empty array
     @exhibits.each do |exhibit| # iterate over the exhibits
-      result[exhibit] # ensure the exhibit is included in the result (throws errors if not)
+      result[exhibit] # ensure the exhibit is included in the result
       @patrons.each do |patron| # iterate over the iteration of the exhibits lol
         if patron.interests.include?(exhibit.name) # if the patron's interests include the exhibit name
           result[exhibit] << patron # shovel the patron into the hash with the exhibit as the key
