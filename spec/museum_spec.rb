@@ -14,11 +14,6 @@ RSpec.describe Museum do
     @gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
     @dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     @imax = Exhibit.new({name: "IMAX",cost: 15})
-
-    @patron_1 = Patron.new("Bob", 20)
-    @patron_2 = Patron.new("Sally", 20)
-    @patron_3 = Patron.new("Johnny", 5)
-
   end
 
   describe '#intialize' do
@@ -68,67 +63,74 @@ RSpec.describe Museum do
     end
   end
 
-  describe '#admit' do
-    it 'can admit patrons' do
-      expect(@dmns.patrons).to eq([])
-      @patron_1.add_interest("Gems and Minerals")
-      @patron_1.add_interest("Dead Sea Scrolls")
-      @patron_2.add_interest("Dead Sea Scrolls")
-      @patron_3.add_interest("Dead Sea Scrolls")
-
-      @dmns.admit(@patron_1)
-      @dmns.admit(@patron_2)
-      @dmns.admit(@patron_3)
-
-      expect(@dmns.patrons).to eq([@patron_1, @patron_2, @patron_3])
+  describe 'iteration 3' do
+    before(:each) do
+      @dmns = Museum.new("Denver Museum of Nature and Science")
+  
+      @gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
+      @dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
+      @imax = Exhibit.new({name: "IMAX",cost: 15})
+  
+      @patron_1 = Patron.new("Bob", 0)
+      @patron_2 = Patron.new("Sally", 20)
+      @patron_3 = Patron.new("Johnny", 5)
     end
-  end
 
-  describe '#patrons_by_exhibit_interest' do
-    it 'returns a hash patrons by exhibit interests' do
-      @patron_1.add_interest("Gems and Minerals")
-      @patron_1.add_interest("Dead Sea Scrolls")
-      @patron_2.add_interest("Dead Sea Scrolls")
-      @patron_3.add_interest("Dead Sea Scrolls")
+    describe '#admit' do
+      it 'can admit patrons' do
+        expect(@dmns.patrons).to eq([])
+        @patron_1.add_interest("Gems and Minerals")
+        @patron_1.add_interest("Dead Sea Scrolls")
+        @patron_2.add_interest("Dead Sea Scrolls")
+        @patron_3.add_interest("Dead Sea Scrolls")
 
-      @dmns.add_exhibit(@gems_and_minerals)
-      @dmns.add_exhibit(@dead_sea_scrolls)
-      @dmns.add_exhibit(@imax)
+        @dmns.admit(@patron_1)
+        @dmns.admit(@patron_2)
+        @dmns.admit(@patron_3)
 
-      @dmns.admit(@patron_1)
-      @dmns.admit(@patron_2)
-      @dmns.admit(@patron_3)
-
-      expected_output = {
-        @gems_and_minerals => [@patron_1], 
-        @dead_sea_scrolls => [@patron_1, @patron_2, @patron_3],
-        @imax => []
-      }
-
-      expect(@dmns.patrons_by_exhibit_interest).to eq(expected_output)
+        expect(@dmns.patrons).to eq([@patron_1, @patron_2, @patron_3])
+      end
     end
-  end
 
-  xdescribe '#ticket_lottery_contestants' do
-    it 'returns an array of patrons that do not have enough money to see an exhibi' do
-      @dmns.admit(@patron_1)
-      @dmns.admit(@patron_2)
-      @dmns.admit(@patron_3)
+    describe '#patrons_by_exhibit_interest' do
+      it 'returns a hash patrons by exhibit interests' do
+        @patron_1.add_interest("Gems and Minerals")
+        @patron_1.add_interest("Dead Sea Scrolls")
+        @patron_2.add_interest("Dead Sea Scrolls")
+        @patron_3.add_interest("Dead Sea Scrolls")
 
-      expected_output = {
-        @gems_and_minerals => [@patron_1], 
-        @dead_sea_scrolls => [@patron_1, @patron_2, @patron_3],
-        @imax => []
-      }
+        @dmns.add_exhibit(@gems_and_minerals)
+        @dmns.add_exhibit(@dead_sea_scrolls)
+        @dmns.add_exhibit(@imax)
 
-      expect(@dmns.patrons_by_exhibit_interest).to eq(expected_output)
-      expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq(@patron_1, @patron_3)
-      expect(@dmns.ticket_lottery_contestants(@gems_and_minerals)).to eq([])
+        @dmns.admit(@patron_1)
+        @dmns.admit(@patron_2)
+        @dmns.admit(@patron_3)
+
+        expected_output = {
+          @gems_and_minerals => [@patron_1], 
+          @dead_sea_scrolls => [@patron_1, @patron_2, @patron_3],
+          @imax => []
+        }
+
+        expect(@dmns.patrons_by_exhibit_interest).to eq(expected_output)
+      end
     end
-  end
 
-  xdescribe '#draw_lottery_winner' do
+    describe '#ticket_lottery_contestants' do
+      it 'returns an array of patrons that do not have enough money to see an exhibit' do
+        @patron_1.add_interest("Gems and Minerals")
+        @patron_1.add_interest("Dead Sea Scrolls")
+        @patron_2.add_interest("Dead Sea Scrolls")
+        @patron_3.add_interest("Dead Sea Scrolls")
 
+        @dmns.admit(@patron_1)
+        @dmns.admit(@patron_2)
+        @dmns.admit(@patron_3)
+
+        expect(@dmns.ticket_lottery_contestants(@dead_sea_scrolls)).to eq([@patron_1, @patron_3])
+      end
+    end
   end
 end
 
