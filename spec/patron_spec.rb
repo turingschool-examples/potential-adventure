@@ -4,6 +4,7 @@ require './lib/patron'
 RSpec.describe Patron do
   before(:each) do
     @patron = Patron.new("Bob", 20)
+
   end
 
   describe "#initialize" do
@@ -23,5 +24,13 @@ RSpec.describe Patron do
     it 'has an empty interest array' do
       expect(@patron.interests).to eq([])
     end
+
+    it 'has an item in the interest array' do
+      @patron.add_interest("Dead Sea Scrolls")
+      @patron.add_interest("Gems and Minerals")
+
+      expect(@patron.interests).to eq(["Dead Sea Scrolls","Gems and Minerals"])
+    end
+
   end
 end
