@@ -1,5 +1,6 @@
 class Exhibit 
 
-  def initialize
+  def initialize(details)
+    
   end
 end
