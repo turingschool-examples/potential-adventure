@@ -8,4 +8,8 @@ class Museum
   def add_exhibit(exhibit)
     @exhibits << exhibit
   end
+
+  def recommend_exhibits(patron)
+    @exhibits.select {|exhibit| patron.interests.include?(exhibit)}
+  end
 end
