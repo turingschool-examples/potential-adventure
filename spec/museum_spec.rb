@@ -13,6 +13,8 @@ RSpec.describe Museum do
     @patron_1 = Patron.new("Bob", 0)
     @patron_2 = Patron.new("Sally", 20)
     @patron_3 = Patron.new("Johnny", 5)
+    @patron_4 = Patron.new("Morgan", 15)
+    @patron_5 = Patron.new("TJ", 7)
   end
 
   describe "#initialization" do
@@ -128,6 +130,62 @@ RSpec.describe Museum do
     it 'can announce no winner' do
       @dmns.add_exhibit(@gems_and_minerals)
       expect(@dmns.announce_lottery_winner(@gems_and_minerals)).to eq("No winners for this lottery")
+    end
+  end
+
+  describe "#attend_exhibits" do
+    it 'patrons attend exhibits based on interests and spending money' do
+      @dmns.add_exhibit(@gems_and_minerals)
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @dmns.add_exhibit(@imax)
+
+      @patron_5.add_interest("IMAX")
+      @patron_5.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_5)
+      expect(@patron_5.spending_money).to eq(7)
+
+      @patron_1.add_interest("Dead Sea Scrolls")
+      @patron_1.add_interest("IMAX")
+      @dmns.admit(@patron_1)
+      expect(@patron_1.spending_money).to eq(0)
+
+      @patron_2.add_interest("IMAX")
+      @patron_2.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_2)
+      expect(@patron_2.spending_money).to eq(5)
+
+      @patron_4.add_interest("Gems and Minerals")
+      @patron_4.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_4)
+      expect(@patron_4.spending_money).to eq(5) # these are just sanity checks so we know the patrons are spending money correctly
+
+      results = {
+        @dead_sea_scrolls => [@patron_1, @patron_4],
+        @imax => [@patron_2],
+        @gems_and_minerals => [@patron_4]
+      }
+      expect(@dmns.patrons_in_exhibits).to eq(results)
+    end
+
+    # not gonna bother throwing into a describe block because it's just one test
+    it 'calculates revenue' do
+      @dmns.add_exhibit(@gems_and_minerals)
+      @dmns.add_exhibit(@dead_sea_scrolls)
+      @dmns.add_exhibit(@imax)
+
+      @patron_1.add_interest("Dead Sea Scrolls")
+      @patron_1.add_interest("IMAX")
+      @dmns.admit(@patron_1)
+
+      @patron_2.add_interest("IMAX")
+      @patron_2.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_2)
+
+      @patron_4.add_interest("Gems and Minerals")
+      @patron_4.add_interest("Dead Sea Scrolls")
+      @dmns.admit(@patron_4)
+
+      expect(@dmns.revenue).to eq(35) # 10 + 15 + 10
     end
   end
 end
