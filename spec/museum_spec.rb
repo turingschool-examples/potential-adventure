@@ -1,6 +1,7 @@
 require './lib/museum'
 require './lib/patron'
 require './lib/exhibit'
+require 'rspec'
 
 RSpec.describe Museum do
   before(:each)do
@@ -10,12 +11,14 @@ RSpec.describe Museum do
     @imax = Exhibit.new({name: "IMAX",cost: 15})
     @patron_1 = Patron.new("Bob", 20)
     @patron_2 = Patron.new("Sally", 20)
+    @patron_3 = Patron.new("Johnny", 5)
   end
   describe "#initializze" do
     it 'exists and has attr' do
       expect(@dmns).to be_a(Museum)
       expect(@dmns.name).to eq("Denver Museum of Nature and Science")
       expect(@dmns.exhibits).to eq([])
+      expect(@dmns.patrons).to eq([])
     end
   end
 
@@ -49,5 +52,24 @@ RSpec.describe Museum do
       expect(@dmns.recommend_exhibits(@patron_1)).to eq([@gems_and_minerals, @dead_sea_scrolls])
       expect(@dmns.recommend_exhibits(@patron_2)).to eq([@imax])
    end
+  end
+
+  describe '#patronst' do
+   it 'admits patrons' do
+      # @dmns.add_exhibit(@gems_and_minerals)
+      # @dmns.add_exhibit(@dead_sea_scrolls)
+      # @dmns.add_exhibit(@imax)
+
+      # @patron_1.add_interest("Dead Sea Scrolls")
+      # @patron_1.add_interest("Gems and Minerals")
+      # @patron_2.add_interest("Dead Sea Scrolls")
+      # @patron_3.add_interest("Dead Sea Scrolls")
+      expect(@dmns.patrons).to eq([])
+      @dmns.admit(@patron_1)
+      @dmns.admit(@patron_2)
+      @dmns.admit(@patron_3)
+
+     expect(@dmns.patrons).to eq([@patron_1, @patron_2, @patron_3])
+    end
   end
 end
