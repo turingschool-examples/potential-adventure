@@ -1,6 +1,6 @@
-require './lib/exhibit'
+require 'spec_helper'
 
-Rspec.configure do |config|
+RSpec.configure do |config| # misspelt rspec lol
   config.formatter = :documentation
 end
 

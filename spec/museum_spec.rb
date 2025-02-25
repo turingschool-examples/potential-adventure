@@ -1,8 +1,6 @@
-require '../lib/dmns'
-require '../lib/exhibit'
-require '../lib/patron'
+require 'spec_helper'
 
-Rspec.configure do |config|
+RSpec.configure do |config|
   config.formatter = :documentation
 end
 
