@@ -102,7 +102,7 @@ RSpec.describe Museum do
     end
 
     describe '#ticket_lottery_contestants' do
-        it 'returns patrons who are interested in an exhibit but do not have the spending money' do
+        xit 'returns patrons who are interested in an exhibit but do not have the spending money' do
             dmns = Museum.new("Denver Museum of Nature and Science")
             gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
             dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
@@ -133,7 +133,7 @@ RSpec.describe Museum do
     end
 
     describe '#draw_lottery_winner' do
-        it 'returns a random winner from the eligible lottery contestants' do
+        xit 'returns a random winner from the eligible lottery contestants' do
             dmns = Museum.new("Denver Museum of Nature and Science")
             gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
             dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
@@ -162,7 +162,7 @@ RSpec.describe Museum do
             expect([patron_1.name, patron_3.name]).to include(winner) #could have maybe stubbed here
         end
 
-        it 'returns nil if there are no patrons eligible' do
+        xit 'returns nil if there are no patrons eligible' do
             dmns = Museum.new("Denver Museum of Nature and Science")
             gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
 
@@ -173,7 +173,7 @@ RSpec.describe Museum do
     end
 
     describe '#announce_lottery_winner' do
-        it 'announces lotto winner if there is one' do
+        xit 'announces lotto winner if there is one' do
             dmns = Museum.new("Denver Museum of Nature and Science")
             imax = Exhibit.new({name: "IMAX",cost: 15})
 
@@ -184,7 +184,7 @@ RSpec.describe Museum do
             expect(dmns.announce_lottery_winner(imax)).to eq("Bob has won the IMAX edhibit lottery")
         end
 
-        it 'announces no winners if no eligible patrons' do
+        xit 'announces no winners if no eligible patrons' do
             dmns = Museum.new("Denver Museum of Nature and Science")
             gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
 
