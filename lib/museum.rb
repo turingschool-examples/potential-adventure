@@ -30,4 +30,19 @@ class Museum
         end
         interested_patrons
     end
+
+    def ticket_lottery_contestants(exhibit)
+        @patrons.select do |patron|
+            patron.interests.include?(exhibit.name) && patron.spending_money < exhibit.cost #Checking patron interest and if they don't have enough spending money
+        end
+    end
+
+    def draw_lottery_winner(exhibit)
+        contestants = ticket_lottery_contestants(exhibit)
+        if contestants.empty?
+            return
+            nil
+        end
+        contestants.sample.name
+    end
 end
