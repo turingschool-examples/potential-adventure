@@ -172,5 +172,25 @@ RSpec.describe Museum do
         end
     end
 
-    
+    describe '#announce_lottery_winner' do
+        it 'announces lotto winner if there is one' do
+            dmns = Museum.new("Denver Museum of Nature and Science")
+            imax = Exhibit.new({name: "IMAX",cost: 15})
+
+            dmns.add_exhibit(imax)
+
+            allow(dmns).to receive(:draw_lottery_winner).and_return("Bob") #Do I need to specify imax somehow?
+
+            expect(dmns.announce_lottery_winner(imax)).to eq("Bob has won the IMAX edhibit lottery")
+        end
+
+        it 'announces no winners if no eligible patrons' do
+            dmns = Museum.new("Denver Museum of Nature and Science")
+            gems_and_minerals = Exhibit.new({name: "Gems and Minerals", cost: 0})
+
+            dmns.add_exhibit(gems_and_minerals)
+
+            expect(dmns.announce_lottery_winner(gems_and_minerals)).to eq("No winners for this lottery") #No contestants, no winners
+        end
+    end
 end
