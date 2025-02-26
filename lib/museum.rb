@@ -1,3 +1,4 @@
+require 'pry'
 class Museum 
   attr_reader :name, :exhibits, :patrons
   def initialize(name)
@@ -11,7 +12,9 @@ class Museum
   end
 
   def recommend_exhibits(patron)
-    @exhibits.select { |exhibit| patron.interests.include?(exhibit.name) }
+    @exhibits.select do |exhibit| 
+      patron.interests.include?(exhibit.name)
+    end 
   end
 
   def admit(patron)
@@ -19,22 +22,22 @@ class Museum
   end
 
   def patrons_by_exhibit_interest
-    exhibits.each_with_object({}) do |exhibit, result|
-      result[exhibit] = patrons.select { |patron| patron.interests.include?(exhibit.name) }
+    hash = {}
+    binding.pry
+    @exhibits.each do |exhibit|
+      hash[exhibit] = []
+      @patrons.each do |patron|
+        binding.pry
+        if patron.interests.include?(exhibit.name)
+          hash[exhibit] << patron
+        end
+      end
     end
+    hash
   end
 
-  def ticket_lottery_contestants(exhibit)
-    @patrons.select { |patron| patron.interests.include?(exhibit.name) && patron.spending_money < exhibit.cost }
-  end
   
-  def draw_lottery_winner(exhibit)
-    contestants = ticket_lottery_contestants(exhibit)
-    contestants.empty? ? nil : contestants.sample.name
-  end
 
-  def announce_lottery_winner(exhibit)
-    winner = draw_lottery_winner(exhibit)
-    winner ? "#{winner} has won the #{exhibit.name} exhibit lottery" : "No winners for this lottery"
-  end
-end
+end 
+
+ 
