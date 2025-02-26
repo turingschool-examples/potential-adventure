@@ -114,10 +114,17 @@ RSpec.describe Museum do
 
             patron_3.add_interest("Dead Sea Scrolls")
 
-            @dmns.add_patrons_to_hash(patron_1)
-            @dmns.patrons_by_exhibit_interest
+            @dmns.admit(patron_1)
+            @dmns.admit(patron_2)
+            @dmns.admit(patron_3)
+
+            expected_hash = {
+                @gems_and_minerals => [patron_1],
+                @dead_sea_scrolls => [patron_1,patron_2,patron_3],
+                @imax => []
+                }
             
-            expect(@dmns.patrons_by_exhibit_interest).to eq({"Gems and Minerals" => [patron_1], "Dead Sea Scrolls" => [patron_1,patron_2,patron_3],"IMAX" => []})
+            expect(@dmns.patrons_by_exhibit_interest).to eq(expected_hash)
 
         end
 
