@@ -51,46 +51,20 @@ class Museum
 
     def patrons_by_exhibit_interest #creates a hash
         result = {}
-
         @exhibits.each do |exhibit|
             result[exhibit] = []
         end
-
-        @patrons.each do |patron|
-            recommend_exhibits(patron).each do |exhibit|
-                result[exhibit] << patron
-        #binding.pry
+        @patrons.each do |patrons|
+            recommend_exhibits(patrons).each do |exhibit|
+                binding.pry
+                result[exhibit] << patrons #at the key of recommended exhibit shovel in the patron to the array
             end
         end
         result
     end
 
 
-    def ticket_lottery_contestants(exhibit)
-        lottery_patrons = patrons_by_exhibit_interest[exhibit]
-
-        lottery_patrons.find_all do |patron|
-            patron.spending_money < exhibit.cost
-        end
-    end
-
-    def draw_lottery_winner(exhibit)
-        contestants = ticket_lottery_contestants(exhibit)
-
-        return nil if contestants.empty?
-        winner = contestants.sample
-        winner.name
-    end
-
-    def announce_lottery_winner
-        result = draw_lottery_winner(exhibit)
-        default = "no winners for this lottery"
-        return default if result.nil?
-        "#{refult} has won the #{exhibit.name} exhibit lottery"
-    end
-
-   
-   
+    
 
 end
 
