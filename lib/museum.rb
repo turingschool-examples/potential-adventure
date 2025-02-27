@@ -12,18 +12,18 @@ class Museum
     end
 
 
-    # def recommend_exhibits(patron)
-    #     recommended_exhibits = []
+    def recommend_exhibits(patron)
+        recommended_exhibits = []
         
-    #     @exhibits.each do |exhibit| #iterate over exhibits first because it is a larger array than interests
-    #         patron.interests.map do |interest|
-    #             if interest == exhibit.name
-    #                 recommended_exhibits << exhibit
-    #             end
-    #         end
-    #     end
-    #     return recommended_exhibits
-    # end
+        @exhibits.each do |exhibit| #iterate over exhibits first because it is a larger array than interests
+            patron.interests.map do |interest|
+                if interest == exhibit.name
+                    recommended_exhibits << exhibit
+                end
+            end
+        end
+        return recommended_exhibits
+    end
 
     # def recommend_exhibits(patron)
     #     result = []
@@ -35,11 +35,11 @@ class Museum
     #     result
     # end
 
-    def recommend_exhibits(patron)
-        @exhibits.find_all do |exhibit|
-            patron.interests.include?(exhibit.name)
-        end
-    end
+    # def recommend_exhibits(patron)
+    #     @exhibits.find_all do |exhibit|
+    #         patron.interests.include?(exhibit.name)
+    #     end
+    # end
 
 
     def admit(patron)
